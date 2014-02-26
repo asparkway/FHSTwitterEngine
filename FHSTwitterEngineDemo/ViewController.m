@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "FHSTwitterEngine.h"
+#import "FHSTwitterEngine+Streaming.h"
 
 @interface ViewController () <FHSTwitterEngineAccessTokenDelegate, UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -175,7 +176,8 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         @autoreleasepool {
-            NSLog(@"%@",[[FHSTwitterEngine sharedEngine]getTimelineForUser:[[FHSTwitterEngine sharedEngine]authenticatedID] isID:YES count:10]);
+            NSLog(@"%@",[[FHSTwitterEngine sharedEngine]streamStatusesSampleDelimited:YES stallWarnings:YES]);
+            //NSLog(@"%@",[[FHSTwitterEngine sharedEngine]getTimelineForUser:[[FHSTwitterEngine sharedEngine]authenticatedID] isID:YES count:10]);
             
             dispatch_sync(dispatch_get_main_queue(), ^{
                 @autoreleasepool {

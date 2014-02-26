@@ -123,6 +123,8 @@ static NSString * const url_followers_list = @"https://api.twitter.com/1.1/follo
 static NSString * const url_friends_ids = @"https://api.twitter.com/1.1/friends/ids.json";
 static NSString * const url_friends_list = @"https://api.twitter.com/1.1/friends/list.json";
 
+static NSString * const url_stream_status_sample = @"https://stream.twitter.com/1.1/statuses/sample.json";
+
 
 NSString * fhs_url_remove_params(NSURL *url) {
     if (url.absoluteString.length == 0) {
@@ -1390,6 +1392,22 @@ id removeNull(id rootObject) {
     }
     
     return parsedJSONResponse;
+}
+
+- (id)streamStatusesSampleDelimited:(BOOL)delimited stallWarnings:(BOOL)stallWarnings {
+    NSURL *baseURL = [NSURL URLWithString:url_stream_status_sample];
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    
+    if (delimited) {
+        params[@"delimited"] = @"length";
+    }
+    
+    if (stallWarnings) {
+        params[@"stall_warnings"] = @"true";
+    }
+    
+    return [self sendGETRequestForURL:baseURL andParams:params];
 }
 
 - (instancetype)init {
